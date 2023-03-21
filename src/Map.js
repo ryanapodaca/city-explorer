@@ -4,9 +4,6 @@ import Figure from 'react-bootstrap/Figure';
 
 
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

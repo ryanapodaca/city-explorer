@@ -3,9 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 class Lorm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
