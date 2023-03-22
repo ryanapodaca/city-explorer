@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import Map from './Map';
 import Lorm from './Lorm';
+import Weather from './Weather';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,10 +13,10 @@ class App extends React.Component {
       cityData: {},
       cityMap: '',
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+      weather: {}
     }
   }
-
 
 
   handleCityInput = (event) => {
@@ -24,10 +25,29 @@ class App extends React.Component {
     })
   }
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.city}`;
+
+      let weatherData = await axios.get(url); 
+
+      this.setState({
+        weather: weatherData
+      })
+
+    } catch (error) {
+      this.setState({
+        error: true,
+        errorMessage: error.message
+      })
+    }
+  }
+
   getCityData = async (event) => {
     event.preventDefault();
 
-    console.log('inside get city data');
     try {
       let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`;
 
@@ -36,7 +56,7 @@ class App extends React.Component {
       console.log(cityDataFromAxios);
       
       this.setState({
-        cityData: cityDataFromAxios.data,
+        cityData: cityDataFromAxios.data[0],
         error: false,
         cityMap: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`
       })
@@ -68,6 +88,9 @@ class App extends React.Component {
           cityMapSrc={this.state.cityMap}
           lat={this.state.cityData.lat}
           lon={this.state.cityData.lon}
+        />
+        <Weather 
+          weather={this.state.weather}
         />
       </>
     )

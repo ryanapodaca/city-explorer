@@ -23,9 +23,7 @@ class Lorm extends React.Component {
       </>
     )
   }
-
 }
-
 
 
 export default Lorm;
