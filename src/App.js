@@ -4,7 +4,7 @@ import axios from 'axios';
 import Map from './Map';
 import Lorm from './Lorm';
 import Weather from './Weather';
-import Movies from './Movies';
+import Movie from './Movie';
 
 class App extends React.Component {
   constructor(props) {
@@ -31,12 +31,12 @@ class App extends React.Component {
     //Call server, pass in lat, lon, city name
 
     try {
-      let url = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}lon=${lon}`;
+      let url = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}&lon=${lon}`;
 
       let weatherData = await axios.get(url);
 
       this.setState({
-        weather: weatherData
+        weather: weatherData.data
       })
 
       //pass weatherData as props.
@@ -50,7 +50,6 @@ class App extends React.Component {
   }
 
   handleGetMovies = async (queryCity) => {
-    //Call server, pass in lat, lon, city name
 
     try {
       let url = `${process.env.REACT_APP_SERVER}/movies?query=${queryCity}`;
@@ -58,7 +57,7 @@ class App extends React.Component {
       let movieData = await axios.get(url);
 
       this.setState({
-        movies: movieData
+        movies: movieData.data
       })
 
       //pass movieData as props.
@@ -84,7 +83,7 @@ class App extends React.Component {
       this.setState({
         cityData: cityDataFromAxios.data[0],
         error: false,
-        cityMap: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`
+        cityMap: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${cityDataFromAxios.data[0].lat},${cityDataFromAxios.data[0].lon}&zoom=13`
       })
 
       //call weather handler
@@ -136,8 +135,8 @@ class App extends React.Component {
      
         {this.state.movies.map((mObj, idx) => {
           return (
-            <Movies
-              title={mObj.movies}
+            <Movie
+              title={mObj.title}
               overview={mObj.overview}
               image={mObj.image}
               id={idx}
