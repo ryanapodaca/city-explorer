@@ -4,6 +4,7 @@ import axios from 'axios';
 import Map from './Map';
 import Lorm from './Lorm';
 import Weather from './Weather';
+import Movies from './Movies';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class App extends React.Component {
       cityMap: '',
       error: false,
       errorMessage: '',
-      weather: {}
+      weather: [],
+      movies: []
     }
   }
 
@@ -25,17 +27,41 @@ class App extends React.Component {
     })
   }
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
+  handleGetWeather = async (lat, lon) => {
+    //Call server, pass in lat, lon, city name
 
     try {
-      let url = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.city}`;
+      let url = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}lon=${lon}`;
 
-      let weatherData = await axios.get(url); 
+      let weatherData = await axios.get(url);
 
       this.setState({
         weather: weatherData
       })
+
+      //pass weatherData as props.
+
+    } catch (error) {
+      this.setState({
+        error: true,
+        errorMessage: error.message
+      })
+    }
+  }
+
+  handleGetMovies = async (queryCity) => {
+    //Call server, pass in lat, lon, city name
+
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/movies?query=${queryCity}`;
+
+      let movieData = await axios.get(url);
+
+      this.setState({
+        movies: movieData
+      })
+
+      //pass movieData as props.
 
     } catch (error) {
       this.setState({
@@ -52,14 +78,22 @@ class App extends React.Component {
       let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`;
 
       let cityDataFromAxios = await axios.get(url);
-      
+
       console.log(cityDataFromAxios);
-      
+
       this.setState({
         cityData: cityDataFromAxios.data[0],
         error: false,
         cityMap: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=13`
       })
+
+      //call weather handler
+      let lat = cityDataFromAxios.data[0].lat;
+      let lon = cityDataFromAxios.data[0].lon;
+      this.handleGetWeather(lat, lon);
+
+      //call Movie handler
+      this.handleGetMovies(this.state.city);
 
 
     } catch (error) {
@@ -89,9 +123,28 @@ class App extends React.Component {
           lat={this.state.cityData.lat}
           lon={this.state.cityData.lon}
         />
-        <Weather 
-          weather={this.state.weather}
-        />
+
+        {this.state.weather.map((wObj, idx) => {
+          return (
+            <Weather
+            description={wObj.description}
+            date={wObj.date}
+            id={idx}
+            />
+              )
+        })}
+     
+        {this.state.movies.map((mObj, idx) => {
+          return (
+            <Movies
+              title={mObj.movies}
+              overview={mObj.overview}
+              image={mObj.image}
+              id={idx}
+            />
+          )
+        })}
+
       </>
     )
   }

@@ -7,7 +7,8 @@ class Lorm extends React.Component {
   render() {
     return (
       <>
-        <Form onSubmit={this.props.getCityData}>
+        <Form
+          onSubmit={this.props.getCityData}>
           <Form.Group>
             <Form.Label>Search a Place</Form.Label>
             <Form.Control
