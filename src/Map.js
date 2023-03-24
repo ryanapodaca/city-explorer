@@ -10,9 +10,9 @@ class Map extends React.Component {
       <>
         <Figure>
           <Figure.Image
-            width={171}
-            height={180}
-            alt="171x180"
+            width={600}
+            height={500}
+            alt="City Map"
             src= {this.props.cityMapSrc}
           />
           <Figure.Caption>

@@ -10,7 +10,7 @@ class Lorm extends React.Component {
         <Form
           onSubmit={this.props.getCityData}>
           <Form.Group>
-            <Form.Label>Search a Place</Form.Label>
+            <Form.Label>Search for a Place</Form.Label>
             <Form.Control
               placeholder="Enter a Location"
               onChange={this.props.handleCityInput} />
