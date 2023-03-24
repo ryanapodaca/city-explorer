@@ -39,7 +39,7 @@ class App extends React.Component {
         weather: weatherData.data
       })
 
-      //pass weatherData as props.
+      //pass weatherData as props. //
 
     } catch (error) {
       this.setState({
