@@ -107,43 +107,49 @@ class App extends React.Component {
     console.log(this.state);
     return (
       <>
-        <h1>City Explorer</h1>
-        <Lorm
-          getCityData={this.getCityData}
-          handleCityInput={this.handleCityInput}
-        />
-        {
-          this.state.error
-            ? <p>{this.state.errorMessage}</p>
-            : <p>{this.state.cityData.display_name}</p>
-        }
-        <Map
-          cityMapSrc={this.state.cityMap}
-          lat={this.state.cityData.lat}
-          lon={this.state.cityData.lon}
-        />
 
-        {this.state.weather.map((wObj, idx) => {
-          return (
-            <Weather
-            description={wObj.description}
-            date={wObj.date}
-            id={idx}
-            />
+        <main>
+          <h1>City Explorer</h1>
+          <Lorm
+            getCityData={this.getCityData}
+            handleCityInput={this.handleCityInput}
+          />
+          {
+            this.state.error
+              ? <p>{this.state.errorMessage}</p>
+              : <p>{this.state.cityData.display_name}</p>
+          }
+          <Map
+            cityMapSrc={this.state.cityMap}
+            lat={this.state.cityData.lat}
+            lon={this.state.cityData.lon}
+          />
+          <div id='weather' >
+            {this.state.weather.map((wObj, idx) => {
+              return (
+                <Weather
+                  description={wObj.description}
+                  date={wObj.date}
+                  id={idx}
+                />
               )
-        })}
-     
-        {this.state.movies.map((mObj, idx) => {
-          return (
-            <Movie
-              title={mObj.title}
-              overview={mObj.overview}
-              image={mObj.image}
-              id={idx}
-            />
-          )
-        })}
+            })}
+          </div>
 
+          <div id='movies'>
+            {this.state.movies.map((mObj, idx) => {
+              return (
+                <Movie
+                  title={mObj.title}
+                  overview={mObj.overview}
+                  image={mObj.image}
+                  id={idx}
+                />
+              )
+            })}
+          </div>
+
+        </main>
       </>
     )
   }
