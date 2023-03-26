@@ -4,7 +4,7 @@ import axios from 'axios';
 import Map from './Map';
 import Lorm from './Lorm';
 import Weather from './Weather';
-import Movie from './Movie';
+import Movies from './Movies';
 
 class App extends React.Component {
   constructor(props) {
@@ -125,7 +125,12 @@ class App extends React.Component {
             lon={this.state.cityData.lon}
           />
           <div id='weather' >
-            {this.state.weather.map((wObj, idx) => {
+
+            <Weather
+              weather={this.state.weather}
+           
+            />
+            {/* {this.state.weather.map((wObj, idx) => {
               return (
                 <Weather
                   description={wObj.description}
@@ -133,11 +138,15 @@ class App extends React.Component {
                   id={idx}
                 />
               )
-            })}
+            })} */}
           </div>
 
           <div id='movies'>
-            {this.state.movies.map((mObj, idx) => {
+            <Movies
+              movies={this.state.movies}
+            />
+
+            {/* {this.state.movies.map((mObj, idx) => {
               return (
                 <Movie
                   title={mObj.title}
@@ -146,7 +155,7 @@ class App extends React.Component {
                   id={idx}
                 />
               )
-            })}
+            })} */}
           </div>
 
         </main>
