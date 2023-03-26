@@ -15,4 +15,3 @@ This product uses location IQ, WeatherBit, and themoviedb.org APIs.
 
 ![routing schema](./schema.png)
 
-
